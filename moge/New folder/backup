@@ -1,0 +1,206 @@
+$uid = $_POST['uid'];
+    $pwd = $_POST['pwd'];
+    $query ="SELECT * FROM user
+    WHERE username = '$uid' AND password = '$pwd'";
+    $result = mysqli_query($koneksi, $query);
+    $resultCheck = mysqli_num_rows($result);
+    
+    
+    if($resultCheck < 1){
+        header("location: ../login.php?login=failed");
+        exit();
+    }else{
+        if($row = mysqli_fetch_assoc($result)){
+            $_SESSION['uid'] = $row['uid'];
+            $_SESSION['pwd'] = $row['pwd'];
+            $_SESSION['id_user'] = $row['id_user'];
+
+            header("location: ../index.php");
+            exit();
+        }
+    }
+
+
+
+    
+            <div data-role="popup" id="dlg-invalid-credentials" data-dismissible="false" style="max-width:400px;">
+                <div role="main" class="ui-content">
+                    <h3 class="mc-text-danger">Login Failed</h3>
+                    <p>Did you enter the right credentials?</p>
+                    <div class="mc-text-center"><a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b mc-top-margin-1-5">OK</a></div>
+                </div>
+            </div>
+
+
+
+
+            
+                function insertData(){
+                    var nama = $("#nama").val();
+                    var harga = $("#harga").val();
+                    var deskripsi = $("#deskripsi").val();
+
+                    $.ajax({
+                        type: "POST",
+                        url: "includes/barang-i-inc.php",
+                        data: {
+                            nama:nama,
+                            harga:harga,
+                            deskripsi:deskripsi
+                        },
+                        dataType: "JSON",
+                        success: function(data){
+                            alert("berhasil dimasukkan");
+                            window.location = "localhost/moge";
+                        },
+                        error: function(data){
+                            alert("gagal dimasukkan");
+                        }
+                    })
+                }
+
+
+
+
+                
+    <script>
+        $(document).ready(function() {
+            var commentCount = 2;
+            $("button").click(function() {
+                commentCount = commentCount + 2;
+                $("#data").load("includes/barang-l-inc.php", {
+                    commentNewCount: commentCount
+                });
+            });
+        });
+    </script>
+
+
+
+
+    
+                <ul data-role="listview">
+                <?php
+                    if(empty($_SESSION['id_user']) && empty($_SESSION['uid'])){
+                        ?>
+                    <li><a href="login.php">Login</a></li>
+                <?php
+                    }else{
+                ?>
+                    <li><a href="#">hi, <?php echo $username  ?></a></li>
+                    <li><a href="#">Profil</a></li>
+                    <li>
+                        <button type="submit" id="submit" class="ui-btn ui-btn-b ui-corner-all mc-top-margin-1-5">Logout</button>
+                    </li>
+                <?php
+                    }
+                ?>
+                </ul>
+
+
+
+
+                
+        <div data-role="popup" id="popupRegistrasi" data-transition="pop"  data-overlay-theme="b" data-theme="b" data-dismissible="false">
+            <div data-role="header" data-theme="c">
+                <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <h1>Registrasi</h1>
+            </div><!-- /header -->
+            
+            <div class="ui-field-contain">
+                <label for="nama">Username :</label><input type="text" name="nama" id="nama">
+            </div>
+            <div class="ui-field-contain">
+                <label for="nama">Password :</label><input type="password" name="nama" id="nama">
+            </div>
+            <div class="ui-field-contain">
+                <label for="nama">E-mail :</label><input type="email" name="nama" id="nama">
+            </div>
+            <div class="ui-field-contain">
+                <label for="nama">Nama Asli :</label><input type="text" name="nama" id="nama">
+            </div>
+            <div class="ui-field-contain">
+                <label for="tujuan">Alamat :</label><textarea cols="50" rows="8" name="tujuan" id="tujuan"></textarea>
+            </div>
+            <div class="ui-field-contain">
+                <label for="nama">Phone :</label><input type="text" name="nama" id="nama">
+            </div>
+            <div class="ui-field-contain">
+                <label for="select-native-1">Jenis Kelamin:</label>
+                <select name="select-native-1" id="select-native-1">
+                    <option value="1">Pria</option>
+                    <option value="2">Wanita</option>
+                </select>
+            </div>
+            <div class="ui-field-contain"> 
+                <button type="submit" id="submit" class="ui-btn ui-btn-b ui-corner-all mc-top-margin-1-5">Registrasi</button>
+            </div>
+        </div>
+
+
+
+
+
+        
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $email = $_POST['email'];
+    $nama = $_POST['nama'];
+    $alamat = $_POST['alamat'];
+    $phone = $_POST['phone'];
+    $jk = $_POST['jk'];
+    $tgl_lahir = date("Y-m-d",$_POST['tgl_lahir']);
+
+
+
+     $(document).delegate("body", "pageinit", function(){
+                    $("#submit").click(function(){
+                        var nama = $("#nama").val();
+                        var harga = $("#harga").val();
+                        var deskripsi = $("#deskripsi").val();
+                        $.ajax({
+                            url:"includes/barang-i-inc.php",
+                            method:"POST",
+                            data:{
+                                nama:nama,
+                                harga:harga,
+                                deskripsi:deskripsi
+                            },
+                            success:function(result){
+                                window.location = "index.php";
+                            },
+                            error:function(er){
+                                alert(er);
+                                window.location = "barang-i.php";
+                            }
+                        });
+                    });
+                });
+
+
+<?php if($user_id == 1){ ?>
+                    $("#submit_barang").click(function(){
+                        var id_barang = <?php echo $id_barang; ?>;
+                        var nama = $("#nama_barang").val();
+                        var harga = $("#harga_barang").val();
+                        var deskripsi = $("#deskripsi_barang").val();
+
+                        $.ajax({
+                            url:"includes/barang-e-inc.php",
+                            method:"POST",
+                            data:{
+                                id_barang:id_barang,
+                                nama:nama,
+                                harga:harga,
+                                deskripsi:deskripsi
+                            },
+                            success:function(result){
+                                window.location = "barang-detail.php";
+                            },
+                            error:function(er){
+                                alert(er);
+                                window.location = "barang-detail.php";
+                            }
+                        });
+                    });
+                <?php } ?>
